@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,24 +54,31 @@ public class recommderServlet extends HttpServlet {
             ItemSimilarity similarity = new PearsonCorrelationSimilarity(model);//计算内容相似度
 
             Recommender recommender = new GenericItemBasedRecommender(model, similarity);//构造推荐引擎
-            if(list.size()>5)   recommendations = recommender.recommend(id, 10);//得到推荐结果
+            if(list.size()>5)   recommendations = recommender.recommend(id, 12);//得到推荐结果
             else{
                 list = dbdao.queryForList("select * from trust where uid1=? and value=(select max(value) from trust where uid1=?)",id,id);
                 int nid = (int) list.get(0).get("uid2");
-                recommendations = recommender.recommend(nid, 10);//得到推荐结果
+                recommendations = recommender.recommend(nid, 12);//得到推荐结果
             }
 //            UserSimilarity similarity = new PearsonCorrelationSimilarity(model);//用PearsonCorrelation 算法计算用户相似度
 //            UserNeighborhood neighborhood = new NearestNUserNeighborhood(3, similarity, model);//计算用户的“邻居”，这里将与该用户最近距离为 3 的用户设置为该用户的“邻居”。
 //            Recommender recommender = new CachingRecommender(new GenericUserBasedRecommender(model, neighborhood, similarity));//采用 CachingRecommender 为 RecommendationItem 进行缓存
 //            recommendations = recommender.recommend(id, 10);//得到推荐的结果，size是推荐结果的数目
             List<Movie> movieList = new ArrayList<>();
+            HashMap<Integer,Movie> map = new HashMap<Integer, Movie>();
             for(RecommendedItem recommendtion:recommendations){
                 //out.println(recommendtion);
-                movieList.add(getmovieinfo((int)recommendtion.getItemID()));
+                Movie movie = getmovieinfo((int)recommendtion.getItemID());
+                movieList.add(movie);
+                map.put(movie.getId(),movie);
+                System.out.println("recommderServlet中推荐电影："+movie.getName());
             }
             //JSONObject result = new JSONObject();
             //result.put("movies",movieList);
             out.println(JSON.toJSONString(movieList));
+            session.setAttribute("movieList",movieList);
+            session.setAttribute("moviesmap",map);
+            System.out.println("recommderServlet中map大小："+map.size());
         } catch (Exception e) {
             // TODO: handle exception
             e.printStackTrace();

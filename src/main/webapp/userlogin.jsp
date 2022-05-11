@@ -119,7 +119,9 @@ div.canvas-content{
 							//alert(message);
 							if(message=="success"){
 								console.info("登录成功");
-								location.href="index.jsp";
+								//location.href="index.jsp";
+								$.post("recommderServlet",{},function(data){})
+								location.href="main.jsp"
 							}else if(message=="fail"){
 								mui.toast("用户名或密码错误");
 							}

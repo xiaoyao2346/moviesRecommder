@@ -1,6 +1,7 @@
 package com.example.moviesrecommder.servlet;
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.moviesrecommder.javabean.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -22,7 +23,9 @@ public class markServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=utf-8");
-        String movieId = request.getParameter("movieid");
+        HttpSession session = request.getSession(true);
+        Movie movie = (Movie) session.getAttribute("movie");
+        int movieId = movie.getId();
         int userId = (int) request.getSession().getAttribute("userid");
         String mark = request.getParameter("mark");
         int a = dbdao.update("insert into movie_preferences values(?,?,?)",userId,movieId,Integer.parseInt(mark));
