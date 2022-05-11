@@ -109,9 +109,6 @@ background-attachment: fixed;">
             // $('#ss').searchbox('enable');
             // $('#ss').searchbox('clear');
             // $('#ss').searchbox('reset');
-
-
-
         });
 
         $('#dg').datagrid({

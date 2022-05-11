@@ -29,7 +29,11 @@ public class markServlet extends HttpServlet {
         int userId = (int) request.getSession().getAttribute("userid");
         String mark = request.getParameter("mark");
         int a = dbdao.update("insert into movie_preferences values(?,?,?)",userId,movieId,Integer.parseInt(mark));
-        if(a==1) System.out.println("评分到数据库成功");
+        if(a==1){
+            System.out.println("评分到数据库成功");
+            dbdao.update("update ave_preference set numofusers = numofusers+1");
+            dbdao.update("update ave_preference set totalscores = totalscores+?",Integer.parseInt(mark));
+        }
         else System.out.println("评分到数据库失败");
         FileWriter fw;
         try {

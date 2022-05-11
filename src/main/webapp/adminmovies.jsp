@@ -18,7 +18,26 @@
 </head>
 <body background="img/background.jpg" style=" background-repeat:no-repeat ;background-size:100% 100%;
 background-attachment: fixed;">
-    <h2 style="text-align:center">管理员：<%=session.getAttribute("adminname")%></h2>
+
+    <h1 style="text-align:center">登陆成功</h1>
+    <div class="container" >
+        <div class="search" style="float: left;width: 60%;align-content: center" >
+            <div style="float: right">
+                <input id="ss" >
+
+                <div id="box" style="width:100px;" >
+                    <div data-options="name:'type' ">按类型搜索</div>
+                    <div data-options="name:'name'" >按名称搜索</div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="user" style="float: right">
+            <h2 style="text-align:right">用户：<a href="user.jsp"><%=session.getAttribute("adminname")%></a></h2>
+        </div>
+    </div>
+
     <table id="dg" title="电影列表" class="easyui-datagrid" style="width:100%;height:100%" toolbar="#toolbar"
            rownumbers="false" fitColumns="true" singleSelect="true" >
         <thead>
@@ -193,5 +212,40 @@ background-attachment: fixed;">
                 });
             }
         }
+
+        $("#ss").searchbox({
+            width:300,
+            height:30,
+            //输入框的提示信息
+            prompt:'请输入关键字',
+            menu:"#box",
+            //值
+            // value:'Hello',
+            searcher:function (value,name) {
+                //alert("value:"+value+", name:"+name);
+                $('#dg').datagrid({
+                    url:"searchServlet?option="+name+"&value="+value
+                });
+            },
+            //是否禁用搜索框
+            // disabled:true,
+        });
+
+        console.log($('#ss').searchbox('options'));
+        console.log($('#ss').searchbox('menu'));
+        console.log($('#ss').searchbox('textbox'));
+        $(document).click(function () {
+            //获得输入框的值
+            // alert($('#ss').searchbox('getValue'));
+            // $('#ss').searchbox('setValue','new value');
+            // alert($('#ss').searchbox('getName')) ;
+            // $('#ss').searchbox('selectName','sports');
+            // $('#ss').searchbox('destroy');
+            // $('#ss').searchbox('resize',300);
+            // $('#ss').searchbox('disable');
+            // $('#ss').searchbox('enable');
+            // $('#ss').searchbox('clear');
+            // $('#ss').searchbox('reset');
+        });
     </script>
 </html>

@@ -113,7 +113,8 @@
         map = (HashMap<Integer, Movie>) session.getAttribute("moviesmap");
         movie = map.get(Integer.parseInt(movieID));
       }
-
+      HashMap<Integer,Integer> scoresmap = (HashMap<Integer, Integer>) session.getAttribute("scoresmap");
+      HashMap<Integer,Integer> playtimes = (HashMap<Integer, Integer>) session.getAttribute("playtimes");
       //System.out.println("当前电影ID"+movieID);
 
       //System.out.println("当前电影"+movie);
@@ -156,11 +157,20 @@
               </td>
               <td>
                 <div>
+                  <%
+                    Integer score = scoresmap.get(movie.getId());
+                    Integer playtime = playtimes.get(movie.getId());
+                    if(score!=null){
+                    for(int i=0;i<score;i++){
+                  %>
                   <span class="glyphicon glyphicon-star" style="color:#FFD119"></span>
-                  <span class="glyphicon glyphicon-star" style="color:#FFD119"></span>
-                  <span class="glyphicon glyphicon-star" style="color:#FFD119"></span>
-                  <span class="glyphicon glyphicon-star-empty" style="color:#FFD119"></span>
-                  <span class="glyphicon glyphicon-star-empty" style="color:#FFD119"></span>
+                  <%}}else{%>
+                  <span  style="color:#FFD119">暂无评分</span>
+                  <%}%>
+<%--                  <span class="glyphicon glyphicon-star" style="color:#FFD119"></span>--%>
+<%--                  <span class="glyphicon glyphicon-star" style="color:#FFD119"></span>--%>
+<%--                  <span class="glyphicon glyphicon-star-empty" style="color:#FFD119"></span>--%>
+<%--                  <span class="glyphicon glyphicon-star-empty" style="color:#FFD119"></span>--%>
                 </div>
               </td>
             </tr>
@@ -178,9 +188,9 @@
             </tr>
             <tr>
               <td style="color:#ccc;font-weight:bold;font-style:italic;">
-                <span class="glyphicon glyphicon-comment"></span>&nbsp;评论数量
+                <span class="glyphicon glyphicon-comment"></span>&nbsp;评分数量
               </td>
-              <td>1000</td>
+              <td><%=playtime==null?0:playtime%></td>
             </tr>
             <tr>
               <td style="color:#ccc;font-weight:bold;font-style:italic;">

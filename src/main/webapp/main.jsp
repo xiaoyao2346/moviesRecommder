@@ -1,5 +1,6 @@
 <%@ page import="com.example.moviesrecommder.javabean.Movie" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.HashMap" %><%--
   Created by IntelliJ IDEA.
   User: 22485
   Date: 2022/4/14
@@ -162,8 +163,9 @@
             </div>
             <%
                 List<Movie> movieList = (List<Movie>) session.getAttribute("movieList");
+                HashMap<Integer,Integer> scoresmap = (HashMap<Integer, Integer>) session.getAttribute("scoresmap");
                 for(Movie movie:movieList){
-                    System.out.println("main.jsp中推荐电影："+movie.getName());
+                    //System.out.println("main.jsp中推荐电影："+movie.getName());
             %>
             <div class="col-md-3" >
                 <script>var movieID = <%=movie.getId()%>></script>
@@ -174,11 +176,16 @@
                     <div class="text-left" style="margin-left:auto;margin-right:auto;width:210px;">
                         <span style="color:#999;font-style: italic;"><%= movie.getName()%></span><br>
                         <div>
+                            <%
+                                int score = scoresmap.get(movie.getId());
+                                for(int i=0;i<score;i++){
+                            %>
                             <span class="glyphicon glyphicon-star" style="color:#FFD119"></span>
-                            <span class="glyphicon glyphicon-star" style="color:#FFD119"></span>
-                            <span class="glyphicon glyphicon-star" style="color:#FFD119"></span>
-                            <span class="glyphicon glyphicon-star-empty" style="color:#FFD119"></span>
-                            <span class="glyphicon glyphicon-star-empty" style="color:#FFD119"></span>
+                            <%}%>
+<%--                            <span class="glyphicon glyphicon-star" style="color:#FFD119"></span>--%>
+<%--                            <span class="glyphicon glyphicon-star" style="color:#FFD119"></span>--%>
+<%--                            <span class="glyphicon glyphicon-star-empty" style="color:#FFD119"></span>--%>
+<%--                            <span class="glyphicon glyphicon-star-empty" style="color:#FFD119"></span>--%>
                         </div>
                     </div>
                     <a class="btn btn-primary" target="_blank" role="button" id="<%=movie.getId()%>" onclick="givemark()"><span class="glyphicon glyphicon-play"></span>&nbsp;播放</a>

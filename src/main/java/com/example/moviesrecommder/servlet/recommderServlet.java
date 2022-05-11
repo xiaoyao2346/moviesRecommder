@@ -71,14 +71,28 @@ public class recommderServlet extends HttpServlet {
                 Movie movie = getmovieinfo((int)recommendtion.getItemID());
                 movieList.add(movie);
                 map.put(movie.getId(),movie);
-                System.out.println("recommderServlet中推荐电影："+movie.getName());
+                //System.out.println("recommderServlet中推荐电影："+movie.getName());
             }
             //JSONObject result = new JSONObject();
             //result.put("movies",movieList);
             out.println(JSON.toJSONString(movieList));
             session.setAttribute("movieList",movieList);
             session.setAttribute("moviesmap",map);
-            System.out.println("recommderServlet中map大小："+map.size());
+            //System.out.println("recommderServlet中map大小："+map.size());
+
+
+            List<Map<String, Object>> scores=dbdao.queryForList("select * from ave_preference ");
+            HashMap<Integer,Integer> scoresmap = new HashMap<>();
+            HashMap<Integer,Integer> playtimes = new HashMap<>();
+            for(Map<String,Object> m:scores){
+                int numofusers = (int) m.get("numofusers");
+                int totalscores = (int) m.get("totalscores");
+                scoresmap.put((int)m.get("movieid"),totalscores/numofusers);
+                playtimes.put((int)m.get("movieid"),numofusers);
+            }
+
+            session.setAttribute("scoresmap",scoresmap);
+            session.setAttribute("playtimes",playtimes);
         } catch (Exception e) {
             // TODO: handle exception
             e.printStackTrace();
