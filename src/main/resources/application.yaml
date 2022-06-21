@@ -6,7 +6,7 @@ spring:
   datasource:
     name: "DBPool"
     username: "root"
-    password: "xy19990827"
+    password: ""
     driver-class-name: "org.mariadb.jdbc.Driver"
     url: "jdbc:mariadb://127.0.0.1:3309/movieRecommder"
 
