@@ -85,9 +85,9 @@
 <!--内容-->
 <%
     List<Movie> searchlist = (List<Movie>) session.getAttribute("searchlist");
-    for(Movie movie:searchlist){
-        System.out.println(movie.getName());
-    }
+//    for(Movie movie:searchlist){
+//        System.out.println(movie.getName());
+//    }
 %>
 <div class="container" style="margin-top:76px">
     <div class="row">
@@ -178,10 +178,6 @@
     }
     function givemark(){
         var movieID = event.target.id;
-        // $.ajax({
-        //     url:"play.jsp?movieID="+movieID,
-        //     type:"post"
-        // })
         location.href="play.jsp?movieID2="+movieID;
     }
 </script>

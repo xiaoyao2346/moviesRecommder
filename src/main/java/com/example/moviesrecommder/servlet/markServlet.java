@@ -9,6 +9,8 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.*;
+import java.util.List;
+import java.util.Map;
 
 @WebServlet(name = "markServlet", value = "/markServlet")
 public class markServlet extends HttpServlet {
@@ -31,8 +33,14 @@ public class markServlet extends HttpServlet {
         int a = dbdao.update("insert into movie_preferences values(?,?,?)",userId,movieId,Integer.parseInt(mark));
         if(a==1){
             System.out.println("评分到数据库成功");
-            dbdao.update("update ave_preference set numofusers = numofusers+1");
-            dbdao.update("update ave_preference set totalscores = totalscores+?",Integer.parseInt(mark));
+            List<Map<String, Object>> list=dbdao.queryForList("select * from ave_preference where movieid=?",movieId);
+            if(list.size()>0){
+                dbdao.update("update ave_preference set numofusers = numofusers+1 where movieid=?",movieId);
+                dbdao.update("update ave_preference set totalscores = totalscores+? where movieid=?",Integer.parseInt(mark),movieId);
+            }else{
+                dbdao.update("insert into ave_preference(movieid,numofusers,totalscores) values(?,1,?)",movieId,Integer.parseInt(mark));
+            }
+
         }
         else System.out.println("评分到数据库失败");
         FileWriter fw;

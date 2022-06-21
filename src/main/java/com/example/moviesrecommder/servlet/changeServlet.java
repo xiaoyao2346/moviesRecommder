@@ -37,6 +37,8 @@ public class changeServlet extends HttpServlet {
                 session.setAttribute("username",name);
                 message = new JSONObject();
                 message.put("message","success");
+            }else{
+                message.put("message","fail");
             }
         }
         if(phone!=null&&!phone.equals("")){
@@ -46,6 +48,8 @@ public class changeServlet extends HttpServlet {
                 session.setAttribute("phone",phone);
                 message = new JSONObject();
                 message.put("message","success");
+            }else{
+                message.put("message","fail");
             }
         }
         if(email!=null&&!email.equals("")){
@@ -55,6 +59,8 @@ public class changeServlet extends HttpServlet {
                 session.setAttribute("email",email);
                 message = new JSONObject();
                 message.put("message","success");
+            }else{
+                message.put("message","fail");
             }
         }
         if(address!=null&&!address.equals("")){
@@ -64,6 +70,8 @@ public class changeServlet extends HttpServlet {
                 session.setAttribute("address",address);
                 message = new JSONObject();
                 message.put("message","success");
+            }else{
+                message.put("message","fail");
             }
         }
         if(password!=null&&!password.equals("")){
@@ -71,6 +79,8 @@ public class changeServlet extends HttpServlet {
             if(a==1){
                 message = new JSONObject();
                 message.put("message","success");
+            }else{
+                message.put("message","fail");
             }
         }
         response.getWriter().println(message);

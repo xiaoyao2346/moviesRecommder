@@ -34,7 +34,7 @@ background-attachment: fixed;">
 
         </div>
         <div class="user" style="float: right">
-            <h2 style="text-align:right">用户：<a href="user.jsp"><%=session.getAttribute("adminname")%></a></h2>
+            <h2 style="text-align:right">管理员：<%=session.getAttribute("adminname")%></h2>
         </div>
     </div>
 
